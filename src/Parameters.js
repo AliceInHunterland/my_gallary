@@ -1,44 +1,65 @@
 import {
   VStack,
   HStack,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalCloseButton,
   Button,
   Text,
   Image,
   Input
 } from "@chakra-ui/react";
 import { useConnect } from "wagmi";
+import FileUpload from "./uploadFile";
+import {useState} from "react";
 
 export default function SetParametersModal({ mykey, token }) {
   const [{ data, error }, connect] = useConnect();
-  console.log(token);
+
+    const [responseData, setResponseData] = useState({});
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        const NFT = {
+            tokenid: "token_123",
+            owner: "John Doe",
+            metadata: "Example token",
+        };
+
+        fetch("/tokens/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(NFT),
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                setResponseData(data);
+            })
+            .catch((error) => {
+                console.error("There was a problem with your fetch operation:", error);
+            });
+    };
+
+
+
+    console.log(token);
   console.log("key", mykey);
   return (
-    // <Modal key={mykey} isOpen={isOpen} onClose={closeModal} isCentered>
-    //   <ModalOverlay />
-    //   <ModalContent w="300px">
-    //     <ModalHeader>Set Parameters {token}</ModalHeader>
-    //     <ModalCloseButton
-    //       _focus={{
-    //         boxShadow: "none"
-    //       }}
-    //     />
-    //     <ModalBody paddingBottom="1.5rem">
-    //       <VStack>
+
     <>
       <Input placeholder="first" width="auto" />
-      <Input placeholder="second" width="auto" />
       <Button
         variant="outline"
-        onClick={() => {
-          console.log("SENT", token);
-          // closeModal();
-        }}
+        onClick ={handleSubmit}
+        // onClick={() => {
+        //   console.log("SENT", token);
+        //   // closeModal();
+        // }}
         w="100%"
       >
         <HStack w="100%" justifyContent="center">
@@ -52,10 +73,8 @@ export default function SetParametersModal({ mykey, token }) {
           <Text>Set Params</Text>
         </HStack>
       </Button>
+        <FileUpload/>
     </>
-    //       </VStack>
-    //     </ModalBody>
-    //   </ModalContent>
-    // </Modal>
+
   );
 }
