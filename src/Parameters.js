@@ -1,80 +1,73 @@
+import React, { useState } from "react";
 import {
-  VStack,
-  HStack,
-  Button,
-  Text,
-  Image,
-  Input
+    Button,
+    Text,
+    Image,
+    Stack,
+    useDisclosure,
+    Box,
 } from "@chakra-ui/react";
-import { useConnect } from "wagmi";
 import FileUpload from "./uploadFile";
-import {useState} from "react";
+
+const server = 'https://a549-138-199-59-198.eu.ngrok.io';
 
 export default function SetParametersModal({ mykey, token }) {
-  const [{ data, error }, connect] = useConnect();
+    const [tokenid, setTokenid] = useState(token);
+    const [name, setName] = useState("");
+    const [param, setDescription] = useState("");
 
-    const [responseData, setResponseData] = useState({});
-
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-
-        const NFT = {
-            tokenid: "token_123",
-            owner: "John Doe",
-            metadata: "Example token",
-        };
-
-        fetch("/tokens/", {
+        const data = { tokenid, param };
+        const response = await fetch(server + "/tokens/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(NFT),
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                setResponseData(data);
-            })
-            .catch((error) => {
-                console.error("There was a problem with your fetch operation:", error);
-            });
+            body: JSON.stringify(data),
+        });
+        if (response.ok) {
+            console.log("Token created successfully");
+        } else {
+            console.error("Failed to create token");
+        }
     };
 
+    return (
+        <>
+        <form onSubmit={handleSubmit}>
+            <label>
+                Token ID:
+                <Text
+                    // type="text"
+                    // value={tokenid}
+                    // onChange={(event) => setTokenid(event.target.value)}
+                >{tokenid}</Text>
+            </label>
+            {/*<br />*/}
+            {/*<label>*/}
+            {/*    Name:*/}
+            {/*    <input*/}
+            {/*        type="text"*/}
+            {/*        value={name}*/}
+            {/*        onChange={(event) => setName(event.target.value)}*/}
+            {/*    />*/}
+            {/*</label>*/}
+            <br />
+            <label>
+                Description:
+                <input
+                    type="text"
+                    value={param}
+                    onChange={(event) => setDescription(event.target.value)}
+                />
+            </label>
+            <br />
+            <Button type="submit">Create Token</Button>
+        </form>
+            <FileUpload token={token}/>
+        </>
+    );
+};
 
-
-    console.log(token);
-  console.log("key", mykey);
-  return (
-
-    <>
-      <Input placeholder="first" width="auto" />
-      <Button
-        variant="outline"
-        onClick ={handleSubmit}
-        // onClick={() => {
-        //   console.log("SENT", token);
-        //   // closeModal();
-        // }}
-        w="100%"
-      >
-        <HStack w="100%" justifyContent="center">
-          <Image
-            src="/cbw.png"
-            alt="Coinbase Wallet Logo"
-            width={25}
-            height={25}
-            borderRadius="3px"
-          />
-          <Text>Set Params</Text>
-        </HStack>
-      </Button>
-        <FileUpload/>
-    </>
-
-  );
-}
+// export default SetParametersModal;

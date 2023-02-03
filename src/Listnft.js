@@ -28,12 +28,12 @@ export default function ListNFTbyOwner({ ownerAddress }) {
     {
       tokensrc:
         "https://ipfs.io/ipfs/QmQEVVLJUR1WLN15S49rzDJsSP7za9DxeqpUzWuG4aondg",
-      tokenAddress: "0xa83ad1563c315c1f088305d3e38fb5a67d00cb8b"
+      tokenAddress: "10xa83ad1563c315c1f088305d3e38fb5a67d00cb8b"
     },
     {
       tokensrc:
         "https://ipfs.io/ipfs/QmQEVVLJUR1WLN15S49rzDJsSP7za9DxeqpUzWuG4aondg",
-      tokenAddress: "0xa83ad1563c315c1f088305d3e38fb5a67d00cb8q"
+      tokenAddress: "20xa83ad1563c315c1f088305d3e38fb5a67d00cb8q"
     }
   ]);
   // Get all outbound transfers for a provided address

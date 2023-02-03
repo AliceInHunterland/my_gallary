@@ -1,6 +1,16 @@
 import React, { useState } from 'react';
+import {
+    Button,
+    Text,
+    Image,
+    Stack,
+    useDisclosure,
+    Box
+} from "@chakra-ui/react";
 
-const FileUpload = () => {
+const server = 'https://a549-138-199-59-198.eu.ngrok.io';
+
+export default function FileUpload({ token }) {
     const [file, setFile] = useState(null);
 
     const handleChange = (event) => {
@@ -14,9 +24,9 @@ const FileUpload = () => {
         console.log('Uploading file:', file.name);
 
         const formData = new FormData();
-        formData.append('file', file, 'fuckinf_file');
+        formData.append('file', file, token);
 
-        fetch('http://0.0.0.0/uploadfile', {
+        fetch(server +'/uploadfile', {
             method: 'POST',
             body: formData,
         })
@@ -29,9 +39,9 @@ const FileUpload = () => {
     return (
         <form onSubmit={handleSubmit}>
             <input type="file" onChange={handleChange} />
-            <button type="submit">Upload</button>
+            <Button type="submit">Upload</Button>
         </form>
     );
 };
 
-export default FileUpload;
+// export default FileUpload;
