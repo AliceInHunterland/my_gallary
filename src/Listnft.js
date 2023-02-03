@@ -69,7 +69,7 @@ export default function ListNFTbyOwner({ ownerAddress }) {
           });
         }
       }
-      // setmynft(mylistNft);
+      setmynft(mylistNft);
     });
   }, []);
 
@@ -89,7 +89,7 @@ export default function ListNFTbyOwner({ ownerAddress }) {
 
               <div className="token-container" key={i}>
                 {/* <Button onClick={onOpen}>Add parameters</Button> */}
-                <SetParametersModal mykey={i} token={nft.tokenAddress} />
+                <SetParametersModal mykey={i} token={nft.tokenAddress}></SetParametersModal>
               </div>
               {/* // <Box> */}
               {/* //   <Input placeholder="first" width="auto" /> */}
