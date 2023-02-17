@@ -8,17 +8,18 @@ import {
     Box,
 } from "@chakra-ui/react";
 import FileUpload from "./uploadFile";
-
-const server = 'https://a549-138-199-59-198.eu.ngrok.io';
+import FileDownload from "./downloadFile";
+const server = 'https://7c2a-138-199-59-216.eu.ngrok.io';
 
 export default function SetParametersModal({ mykey, token }) {
     const [tokenid, setTokenid] = useState(token);
-    const [name, setName] = useState("");
-    const [param, setDescription] = useState("");
-
+    const [scale, setScale] = useState("1 1 1");
+    const [pos, setPosition] = useState("");
+    const [rot, setRotation] = useState("");
+    const [coordinates, setCoordinates] = useState("");
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const data = { tokenid, param };
+        const data = { tokenid, scale,pos,rot,coordinates };
         const response = await fetch(server + "/tokens/", {
             method: "POST",
             headers: {
@@ -39,33 +40,50 @@ export default function SetParametersModal({ mykey, token }) {
             <label>
                 Token ID:
                 <Text
-                    // type="text"
-                    // value={tokenid}
-                    // onChange={(event) => setTokenid(event.target.value)}
                 >{tokenid}</Text>
             </label>
-            {/*<br />*/}
-            {/*<label>*/}
-            {/*    Name:*/}
-            {/*    <input*/}
-            {/*        type="text"*/}
-            {/*        value={name}*/}
-            {/*        onChange={(event) => setName(event.target.value)}*/}
-            {/*    />*/}
-            {/*</label>*/}
             <br />
             <label>
-                Description:
+                Position:
                 <input
                     type="text"
-                    value={param}
-                    onChange={(event) => setDescription(event.target.value)}
+                    value={pos}
+                    onChange={(event) => setPosition(event.target.value)}
+                />
+            </label>
+            <br />
+            <label>
+                Scale:
+                <input
+                    type="text"
+                    value={scale}
+                    onChange={(event) => setScale(event.target.value)}
+                />
+            </label>
+            <br />
+            <label>
+                Rotation:
+                <input
+                    type="text"
+                    value={rot}
+                    onChange={(event) => setRotation(event.target.value)}
+                />
+            </label>
+            <br />
+            <label>
+                Coordinates:
+                <input
+                    type="text"
+                    value={coordinates}
+                    onChange={(event) => setCoordinates(event.target.value)}
                 />
             </label>
             <br />
             <Button type="submit">Create Token</Button>
         </form>
-            <FileUpload token={token}/>
+            <FileUpload token={token} endpoint={'marker'} />
+            <FileDownload token={token} endpoint={'marker'} />
+            <FileUpload token={token} endpoint={ 'descriptor'}/>
         </>
     );
 };

@@ -69,7 +69,7 @@ export default function ListNFTbyOwner({ ownerAddress }) {
           });
         }
       }
-      setmynft(mylistNft);
+      // setmynft(mylistNft);
     });
   }, []);
 

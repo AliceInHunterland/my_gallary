@@ -8,9 +8,9 @@ import {
     Box
 } from "@chakra-ui/react";
 
-const server = 'https://a549-138-199-59-198.eu.ngrok.io';
+const server = 'https://7c2a-138-199-59-216.eu.ngrok.io';
 
-export default function FileUpload({ token }) {
+export default function FileUpload({ token,endpoint }) {
     const [file, setFile] = useState(null);
 
     const handleChange = (event) => {
@@ -25,8 +25,8 @@ export default function FileUpload({ token }) {
 
         const formData = new FormData();
         formData.append('file', file, token);
-
-        fetch(server +'/uploadfile', {
+        console.log(server +'/uploadfile/'+endpoint);
+        fetch(server + '/uploadfile/marker', {
             method: 'POST',
             body: formData,
         })
@@ -38,6 +38,8 @@ export default function FileUpload({ token }) {
 
     return (
         <form onSubmit={handleSubmit}>
+           {endpoint}
+            <br></br>
             <input type="file" onChange={handleChange} />
             <Button type="submit">Upload</Button>
         </form>
